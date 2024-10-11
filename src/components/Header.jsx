@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { FaSearch, FaTimes, FaBars } from 'react-icons/fa';
 
-const Header = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+const Header = ({searchQuery,setSearchQuery}) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -10,7 +9,7 @@ const Header = () => {
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
     if (isSearchOpen) {
-      setSearchTerm('');
+      setSearchQuery('');
     }
   };
 
@@ -18,16 +17,19 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
     if (isSearchOpen) {
       setIsSearchOpen(false);
-      setSearchTerm('');
+      setSearchQuery('');
     }
   };
-  const clearSearchTerm = () => {
+  const clearsearchQuery = () => {
     
  
-      setSearchTerm('');
+    setSearchQuery('');
     
   };
 
+  const handleSubmit=(e)=>{
+e.preventDefault();
+  }
 
   return (
     <nav className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 shadow-lg">
@@ -39,12 +41,12 @@ const Header = () => {
           
           <div className="flex items-center">
             <div className={`relative ${isSearchOpen ? 'w-64' : 'w-8'} transition-all duration-300 ease-in-out hidden md:block`}>
-              <form  className="flex items-center">
+              <form  className="flex items-center" onSubmit={handleSubmit}>
                 <input
                   type="text"
                   placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className={`w-full py-1 px-3 pr-8 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 ${
                     isSearchOpen ? 'opacity-100' : 'opacity-0 w-0'
                   } transition-all duration-300 ease-in-out`}
@@ -71,17 +73,17 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="mt-4 md:hidden">
            
-            <form onSubmit={handleSearchSubmit} className="mt-4">
+            <form onSubmit={handleSubmit} className="mt-4">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full py-2 px-4 pr-10 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
                 />
                 
-                    {!searchTerm && (
+                    {!searchQuery && (
                   <button
                     type="button"
                     
@@ -90,10 +92,10 @@ const Header = () => {
                     <FaSearch size={16} />
                   </button>
                 )}
-                    {searchTerm && (
+                    {searchQuery && (
                   <button
                     type="button"
-                    onClick={clearSearchTerm}
+                    onClick={clearsearchQuery}
                     className="absolute right-0 top-0 mt-2 mr-3 text-white"
                   >
                     <FaTimes size={16} />

@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Card = () => {
+const Card = ({searchQuery}) => {
   const [pokemons, setPokemon] = useState([]);
+const [filterPokemons,setFilteredPokem]=useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,9 +22,18 @@ const Card = () => {
     fetchData();
   }, []);
 
+
+  useEffect(() => {
+    const filtered=pokemons.filter((item)=>
+      item?.data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+
+    )
+    setFilteredPokem(filtered);
+  }, [searchQuery,pokemons]);
+  
   return (
     <div className=" bg-gradient-to-r from-pink-400 to-blue-700 grid lg:grid-cols-4 gap-8  grid-cols-1  p-8 my-10  md:grid-cols-3 sm:grid-cols-2 sm:gap-4">
-      {pokemons.map((pokemon) => (
+      {filterPokemons.length >0 ? (filterPokemons.map((pokemon) => (
         <div className="max-w-sm hover:scale-105   my-4  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <Link to={"/"}>
             <img
@@ -63,7 +73,10 @@ const Card = () => {
         </Link>
           </div>
         </div>
-      ))}
+      ))):(
+        <h1 className="flex min-h-[100vh] justify-center font-bold text-xl ">Not Found !</h1>
+
+      ) }
     </div>
   );
 };
