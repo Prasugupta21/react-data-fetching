@@ -11,7 +11,7 @@ function  App()  {
   return (
     <>
    
-
+<div className='bg-gradient-to-r from-pink-400 to-blue-700'>
 
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
       <Routes>
@@ -20,8 +20,9 @@ function  App()  {
    
     
      
-      
+      </div>
     </>
+   
   )
 }
 
